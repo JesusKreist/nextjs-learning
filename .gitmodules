@@ -4,6 +4,6 @@
 	ignore = dirty
 
 [submodule "react-course"]
-	path = nextjs-course-code-clean
-	url = ./nextjs-course-code-clean
+	path = react-course
+	url = ./react-course
 	ignore = dirty
