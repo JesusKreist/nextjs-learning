@@ -1,0 +1,3 @@
+[submodule "nextjs-course-code-clean"]
+	path = nextjs-course-code-clean
+	url = ./nextjs-course-code-clean
