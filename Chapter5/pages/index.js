@@ -1,11 +1,14 @@
 import fs from "fs/promises";
 import path from "path";
+import Link from "next/link";
 
 function HomePage({ products }) {
   return (
     <ul>
       {products.map(({ title, id }) => (
-        <li key={id}>{title}</li>
+        <li key={id}>
+          <Link href={`/${id}`}>{title}</Link>
+        </li>
       ))}
     </ul>
   );
@@ -20,6 +23,7 @@ export const getStaticProps = async () => {
     props: {
       products: data.products,
     },
+    revalidate: 10,
   };
 };
 
