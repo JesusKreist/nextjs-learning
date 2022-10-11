@@ -1,4 +1,4 @@
-import { getData } from "../components/utils/getData";
+import { getData } from "../../components/utils/getData";
 
 const ProductDetailPage = ({ loadedProduct }) => {
   if (!loadedProduct) {
