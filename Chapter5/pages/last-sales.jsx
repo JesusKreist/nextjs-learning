@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-const LastSales = () => {
-  const [sales, setSales] = useState([]);
+const LastSales = (props) => {
+  const [sales, setSales] = useState(props.sales);
   const dbUrl =
     "https://nextjs-course-168de-default-rtdb.firebaseio.com/sales.json";
 
@@ -63,3 +63,28 @@ const LastSales = () => {
 };
 
 export default LastSales;
+
+export const getStaticProps = async () => {
+  return fetch(
+    "https://nextjs-course-168de-default-rtdb.firebaseio.com/sales.json"
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      const transformedSales = [];
+
+      for (const key in data) {
+        transformedSales.push({
+          id: key,
+          username: data[key].username,
+          volume: data[key].volume,
+        });
+      }
+
+      return {
+        props: {
+          sales: transformedSales,
+        },
+        revalidate: 10,
+      };
+    });
+};
