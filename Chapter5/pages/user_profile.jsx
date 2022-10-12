@@ -6,7 +6,7 @@ const UserProfilePage = ({ username }) => {
 
 export default UserProfilePage;
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async ({params, req, res}) => {
   return {
     props: {
       username: "Max",
