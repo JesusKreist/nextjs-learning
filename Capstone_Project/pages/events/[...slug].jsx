@@ -3,28 +3,10 @@ import EventList from "../../components/events/EventList";
 import ResultsTitle from "../../components/events/results-title";
 import Button from "../../components/ui/Button";
 import ErrorAlert from "../../components/ui/error-alert";
-import { getFilteredEvents } from "../../dummy-data";
+import { getFilteredEvents } from "../../helpers/api-util";
 
-const FilteredEventsPage = () => {
-  const router = useRouter();
-  const filterData = router.query.slug;
-
-  if (!filterData) {
-    return <p className="center">Loading...</p>;
-  }
-
-  const [filterYear, filterMonth] = filterData;
-  const year = +filterYear;
-  const month = +filterMonth;
-
-  if (
-    isNaN(year) ||
-    isNaN(month) ||
-    year > 2030 ||
-    year < 2021 ||
-    month < 1 ||
-    month > 12
-  ) {
+const FilteredEventsPage = ({ hasError, noEvent, date, filteredEvents }) => {
+  if (hasError) {
     return (
       <>
         <ErrorAlert>
@@ -38,9 +20,7 @@ const FilteredEventsPage = () => {
     );
   }
 
-  const filteredEvents = getFilteredEvents({ year, month });
-
-  if (!filteredEvents || filteredEvents.length === 0) {
+  if (noEvent) {
     return (
       <>
         <ErrorAlert>
@@ -53,14 +33,54 @@ const FilteredEventsPage = () => {
     );
   }
 
-  const date = new Date(year, month - 1);
-
   return (
     <>
-      <ResultsTitle date={date} />
+      <ResultsTitle date={JSON.parse(date)} />
       <EventList items={filteredEvents} />
     </>
   );
+};
+
+export const getServerSideProps = async ({ params }) => {
+  const { slug } = params;
+
+  const [filterYear, filterMonth] = slug;
+  const year = +filterYear;
+  const month = +filterMonth;
+
+  if (
+    isNaN(year) ||
+    isNaN(month) ||
+    year > 2030 ||
+    year < 2021 ||
+    month < 1 ||
+    month > 12
+  ) {
+    return {
+      props: {
+        hasError: true,
+      },
+    };
+  }
+
+  const filteredEvents = await getFilteredEvents({ year, month });
+
+  if (!filteredEvents || filteredEvents.length === 0) {
+    return {
+      props: {
+        noEvent: true,
+      },
+    };
+  }
+
+  const date = new Date(year, month - 1);
+
+  return {
+    props: {
+      filteredEvents,
+      date: JSON.stringify(date),
+    },
+  };
 };
 
 export default FilteredEventsPage;
