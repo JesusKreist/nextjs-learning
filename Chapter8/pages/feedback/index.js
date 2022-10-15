@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { buildFeedbackPath, extractFeedback } from "../api/feedback";
 
 const FeedbackPage = ({ feedbackItems }) => {
