@@ -1,11 +1,6 @@
 import connectMongo from "../../../utils/connectMongo";
 import Subscriber from "../../../database/models/subscriber";
 
-/**
- * @param {import('next').NextApiRequest} req
- * @param {import('next').NextApiResponse} res
- */
-
 export const isConnectedToMongo = async () => {
   try {
     console.log("CONNECTING TO MONGO");
@@ -18,6 +13,11 @@ export const isConnectedToMongo = async () => {
     return false;
   }
 };
+
+/**
+ * @param {import('next').NextApiRequest} req
+ * @param {import('next').NextApiResponse} res
+ */
 const handler = async (req, res) => {
   if (req.method === "POST") {
     const isMongoConnected = await isConnectedToMongo();
@@ -35,8 +35,6 @@ const handler = async (req, res) => {
       emailAddress: userEmail,
       createdAt: new Date(),
     });
-
-    console.log(subscriber);
 
     try {
       await subscriber.save();
