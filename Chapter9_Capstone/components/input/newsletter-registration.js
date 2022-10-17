@@ -1,8 +1,26 @@
-import classes from './newsletter-registration.module.css';
+import { useRef } from "react";
+import classes from "./newsletter-registration.module.css";
 
 function NewsletterRegistration() {
+  const emailRef = useRef();
+
   function registrationHandler(event) {
     event.preventDefault();
+
+    const email = emailRef.current.value;
+    try {
+      fetch("/api/newsletter/add-new", {
+        method: "POST",
+        body: JSON.stringify({ email }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("Successfully registered for newsletter!");
+      emailRef.current.value = "";
+    } catch (e) {
+      console.log("Error registering for newsletter!");
+    }
 
     // fetch user input (state or refs)
     // optional: validate input
@@ -15,10 +33,11 @@ function NewsletterRegistration() {
       <form onSubmit={registrationHandler}>
         <div className={classes.control}>
           <input
-            type='email'
-            id='email'
-            placeholder='Your email'
-            aria-label='Your email'
+            ref={emailRef}
+            type="email"
+            id="email"
+            placeholder="Your email"
+            aria-label="Your email"
           />
           <button>Register</button>
         </div>
