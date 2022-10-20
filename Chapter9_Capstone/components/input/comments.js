@@ -15,11 +15,19 @@ function Comments(props) {
 
   function addCommentHandler(commentData) {
     // send data to API
-    fetch("", {
-      method: "POST",
-      body: JSON.stringify(commentData),
-      headers: {},
-    });
+    fetch(
+      "/api/comment?" +
+        new URLSearchParams({
+          eventId: eventId,
+        }),
+      {
+        method: "POST",
+        body: JSON.stringify(commentData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 
   return (
