@@ -13,6 +13,14 @@ const commentSchema = new Schema({
     type: Schema.Types.Date,
     required: true,
   },
+  email: {
+    type: Schema.Types.String,
+    required: true,
+  },
+  name: {
+    type: Schema.Types.String,
+    required: true,
+  },
 });
 
 const Comment = models.Comment || model("Comment", commentSchema);

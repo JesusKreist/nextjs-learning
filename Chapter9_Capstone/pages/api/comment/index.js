@@ -18,15 +18,27 @@ const handler = async (req, res) => {
       return res.status(422).json({ message: "Invalid text" });
     }
 
-    const eventId = req.body.eventId;
+    const eventId = req.query.eventId;
     if (!eventId) {
       return res.status(422).json({ message: "Invalid event id" });
+    }
+
+    const commenterName = req.body.name;
+    if (!commenterName) {
+      return res.status(422).json({ message: "Invalid name" });
+    }
+
+    const commenterEmail = req.body.email;
+    if (!commenterEmail) {
+      return res.status(422).json({ message: "Invalid email address" });
     }
 
     const newComment = new Comment({
       text: commentText,
       eventId: eventId,
       createdAt: new Date(),
+      email: commenterEmail,
+      name: commenterName,
     });
 
     try {
