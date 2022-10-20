@@ -1,21 +1,21 @@
-import classes from './comment-list.module.css';
+import useSWR from "swr";
+import classes from "./comment-list.module.css";
 
-function CommentList() {
+function CommentList({ eventId }) {
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const { data, error } = useSWR("/api/comment?eventId=" + eventId, fetcher);
+
   return (
     <ul className={classes.comments}>
-      {/* Render list of comments - fetched from API */}
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
+      {data &&
+        data.map((comment) => (
+          <li key={comment._id}>
+            <p>{comment.text}</p>
+            <div>
+              By <address>{comment.name}</address>
+            </div>
+          </li>
+        ))}
     </ul>
   );
 }

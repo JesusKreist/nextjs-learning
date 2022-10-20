@@ -14,7 +14,6 @@ function Comments(props) {
   }
 
   function addCommentHandler(commentData) {
-    // send data to API
     fetch(
       "/api/comment?" +
         new URLSearchParams({
@@ -36,7 +35,7 @@ function Comments(props) {
         {showComments ? "Hide" : "Show"} Comments
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
-      {showComments && <CommentList />}
+      {showComments && <CommentList eventId={eventId} />}
     </section>
   );
 }
