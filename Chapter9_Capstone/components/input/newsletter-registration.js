@@ -9,7 +9,7 @@ function NewsletterRegistration() {
 
     const email = emailRef.current.value;
     try {
-      fetch("/api/newsletter/add-new", {
+      fetch("/api/newsletter", {
         method: "POST",
         body: JSON.stringify({ email }),
         headers: {

@@ -11,6 +11,7 @@ const handler = async (req, res) => {
     res.status(500).json({ message: "Error connecting to database" });
     return;
   }
+
   if (req.method === "POST") {
     const userEmail = req.body.email;
     if (!userEmail || !userEmail.includes("@")) {
