@@ -25,13 +25,13 @@ const handler = async (req, res) => {
 
     try {
       await subscriber.save();
-      res.status(201).json(subscriber);
+      return res.status(201).json(subscriber);
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 
-  res.json({ message: "Hello from the API" });
+  return res.json({ message: "Hello from the API" });
 };
 
 export default handler;
